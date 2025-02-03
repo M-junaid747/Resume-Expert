@@ -16,6 +16,7 @@ export default function Counter() {
         color: 'white',
         fontFamily: 'Arial, sans-serif',
         textAlign: 'center',
+        mt: 5,
       }}
     >
       <Typography

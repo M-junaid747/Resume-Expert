@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Avatar, Box } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import TemporaryDrawer from './Menubar';
+import TemporaryDrawer from '../Auth/Home/Menubar';
+import { Link } from 'react-router-dom';
 
 export default function SimpleAppBar() {
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function SimpleAppBar() {
  }
   return (
     <div>
-      <AppBar position="fixed" sx={{ bgcolor: '#fff', color: '#000' }}>
+      <AppBar position="fixed" sx={{ bgcolor: '#07bbe8', color: '#000' }}>
         <Toolbar>
           {/* Menu Icon */}
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -30,8 +31,8 @@ export default function SimpleAppBar() {
 
           {/* Login/SignUp Buttons */}
           <Box >
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Sign Up</Button>
+          <Link to="/signin"><Button color="inherit">Login</Button></Link>
+          <Link to="/signup"><Button color="inherit">Sign Up</Button></Link>
           <IconButton color="inherit" onClick={handleClick}>
             <Avatar 
               alt="Profile Picture" 

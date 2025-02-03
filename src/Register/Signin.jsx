@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Card, Box, Typography, TextField, Button, Grid, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import CustomAleart from '../Component/Aleart';
 
 export default function SignIn() {
   const [signInData, setSignInData] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
   const navigate=useNavigate();
-  
-  const handleTogglePasswordVisibility = () => setShowPassword(!showPassword);
   
   // Updated handleSubmit function to handle form submission
   const handleSubmit = (e) => {
@@ -31,14 +29,20 @@ export default function SignIn() {
     >
       <Card 
         elevation={6} 
-        style={{
+        sx={{
           padding: '40px',
           maxWidth: '400px',
           width: '100%',
           borderRadius: '30px',
+          backgroundColor: '#07bbe8',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Add transition for smooth animation
+          '&:hover': {
+            transform: 'scale(1.05)', // Scale up the card on hover
+            boxShadow: '0 12px 20px rgba(0, 0, 0, 0.15)', // Add shadow on hover
+          },
         }}
       >
-        <Box textAlign="center" mb={3} bgcolor={'yellow'}>
+        <Box textAlign="center" mb={3}>
           <Typography variant="h4" component="h1" gutterBottom>
             Sign In
           </Typography>
@@ -63,19 +67,11 @@ export default function SignIn() {
               fullWidth
               label="Password"
               variant="outlined"
-              type={showPassword ? 'text' : 'password'}
+              type='password'
               value={signInData.password || ''}
               required
               onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+             
             />
           </Box>
           <Box textAlign="center" mb={2}>
@@ -91,15 +87,18 @@ export default function SignIn() {
           </Box>
           <Typography variant="body2" color="textSecondary" align="center">
             Don’t have an account?{' '}
+            <Link to="/signup" >
             <Button
               color="secondary"
               style={{ textTransform: 'none', padding: 0, fontSize: 'inherit' }}
             >
               Sign Up
             </Button>
+            </Link>
           </Typography>
         </form>
       </Card>
+      <CustomAleart message={"user signIn Successfully"}/>
     </Grid>
   );
 }
