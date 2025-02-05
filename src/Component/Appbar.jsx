@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Avatar, Box } from '@mui/material';
+import React from 'react';
+import { AppBar, Toolbar, IconButton, Typography, Box, Button, Avatar } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import TemporaryDrawer from '../Auth/Home/Menubar';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-export default function SimpleAppBar() {
-  const [open, setOpen] = useState(false);
-  const [popUp, setPopUp] = useState(false);
-
-  const handleMenuClick = () => {
-    setOpen(true);
-  };
- const handleClick=()=>{
-
- }
+const CustomAppBar = ({ handleMenuClick, handleClick }) => {
   return (
-    <div>
-      <AppBar position="fixed" sx={{ bgcolor: '#07bbe8', color: '#000' }}>
-        <Toolbar>
-          {/* Menu Icon */}
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleMenuClick}>
-              <Menu />
-            </IconButton>
-          </Typography>
+    <AppBar
+      position="fixed"
+      sx={{
+        background: 'linear-gradient(45deg, #2196F3, #21CBF3)',
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
+        height: '80px',
+        backdropFilter: 'blur(8px)',
+      }}
+    >
+      <Toolbar>
+        {/* Left Section: Menu Icon and Logo */}
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleMenuClick}
+            sx={{ mr: 2 }}
+          >
+            <Menu />
+          </IconButton>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+              Resume Checker
+            </Typography>
+          </motion.div>
+        </Box>
 
-          {/* Profile Icon */}
-         
-          {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>hellow</Typography> */}
-
-          {/* Login/SignUp Buttons */}
-          <Box >
-          <Link to="/signin"><Button color="inherit">Login</Button></Link>
-          <Link to="/signup"><Button color="inherit">Sign Up</Button></Link>
+        {/* Right Section: Login/Sign Up and Profile Avatar */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Link to="/signin" style={{ textDecoration: 'none' }}>
+            <Button >  <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', color: '#fff' }}>
+              Login
+            </Typography></Button>
+          </Link>
+          <Link to="/signup" style={{ textDecoration: 'none' }}>
+            <Button >  <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', color: '#fff' }}>
+              Sign Up
+            </Typography></Button>
+          </Link>
           <IconButton color="inherit" onClick={handleClick}>
-            <Avatar 
-              alt="Profile Picture" 
-              src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8QEhUQEBAQFRAVFxUVFRUWEA8VFRUVFRUWFhUVFxUYHSggGBolGxUVITEhJSkrLi8uFx8zODMtNygtLisBCgoKDg0OGhAQGy0lHyYtKy0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAKgBLAMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAQIDBAYFBwj/xABIEAABAwIEAgYGBQgIBwEAAAABAAIDBBEFEiExQVEGE2FxgZEHIjKhscEUQmLR8CNSU3KCkpPSM0RUg5SywuEVFkNjc6LxhP/EABoBAAMBAQEBAAAAAAAAAAAAAAABAgMEBQb/xAAuEQACAgICAQIDBwUBAAAAAAAAAQIRAyESMUEEoRNR0SJSYWJxgfAUMjOx0gX/2gAMAwEAAhEDEQA/APFbJCFLlSFquhWRWSJ5am2U0MRCWyRIBWqUBRxjVWGhUhMZlTbKfKogqoADU8BATwgQgCWyVKExCuicNwQr9LgdXK0Ojgme07FsUjh5tBVeCkfILt1HevUug3pDfQUzKOSkMmS+VzZA3Qm+oI7Voo/gZSm15PPP+WK/+yVP+Hn/AJUf8sV/9kqP4Mo+LV7JL6X2N0NBN/GZ/KrdJ6VYpBrSyNPLrW/yo4v7vuRz/N7M8PPRqvH9UqP4Ex+DVE7Aawf1Wp/w8/8AKvoMekJh2pZD/ex/cqWIelNkNs1FMb7WljKOL+77gp/m9meCy4PVNGZ1PO1o3LoZgB4ltlRXsPS/0kfTqaSmgo5WOeLZnPYbDjoF5FLC5hs4WKTVI0jK2R2SEJ6aVBoNsmkJ6QpARkJpapbJ2RFDsqvCYp5mqFQ0UIhLZFkgEslO3n8k4NQ4bePyToDp0bvUH44qRzlWpzZoUhctV0Z1sHOTCUEpl0hkZCjlNlKVBMUn0NE+H1QYTnijlY612vDgdDe7XtIcw9xtzBV84ZBNb6LLaQ/9CdzGPvoPyc+kcnHR2R3AArjxqUISGxKulkheY5Y3seN2vaWuHgVCV2qTGZGtEUrWTQDaKUFzWj/tvBD4v2CPFTHCqWp1pJuqkP8A0Kl7QL8o6kANd2B4Ye9LiLkcKMaq01ilrMLqKZ4ZUQyRuO2ZpAd2tds4doJT42JpCkyPJoqV9V2uq0K4sg1PeiSoUHY4FPaVCFNEEkUyYM0TArsMV2qkdCqITHtJ5lbfo70NxiqjElOWiM7F0pb/AKSsOCvX/RH0lqeqdACDHHzbte5AzXtoASeQCpb6Jm62ykz0dY5mAfUUzBxJme4gdwj19y7tJ0FiYLVOK1Ln/wDbZDG0fvNeVsXNqHgvbZwN8oHEkn1iVksbqJGStgyO647gNOpPLmO1aQhfkylOl0cvFugtZoaLEc4O4mcG27Q9rde7KO9U3ejvpF+lgP8Af3+Ma0OJ09RDC3MQ2V7mtaDYg3IBBA17yFd6EdNesYYHyMY+ME3cS9thc3a698mh32sQeCJRdWgjNXUkeeY10Xx2jYZZnNyDctew6fuhYWeZzzme4k8yvQfSN0/qKrNStfF1N7OLAfW7LknReclZM2j8xCmlOJTCVJYEppKHFMKTGWqOPMSpXRqz0eizZ+5STRK0tGbl9qjj1Q2UAVyvbayqLN9mkegQhIgolYEOGo8fknMKR248fkqJJ2HRLdMaUqYhSU1BSIARygl/HuUzlDJ8z8Ak+hoRikBUQTmlC6GyUJQmhTQQPebMY9x5Na5x8gqJZ1cL6RVMDerDg+E7xSNbJEe+N4LfEWPaug2ooKgG0T6eexsIyXwuNr+w85meDiOxcZuE1X9mqP4Mv3JphkieA9j2PsTZzXNOrTY2KrfkzdPo6mH9S+QwySdVpo8tzNzHYEDUDtUWKdDq6K8jYxNFvngd1gt2tHrDyR0Jq4WVjZKhnWRahzbA3uCBod16lSQYLI4mlrZaWX827mgfsu0t3J8eUbIcuEqPDcvA7jccR3hT07V6V0prKVj2sq2U1YxwNpogGSgfrNN/eshJRU8kwZRl+Qi9pCLtPK/FTwaZfxE0WMPos0RcuM+D1itxhdLkhex1sw31us0YPXPercTKM9sospLr0nA6MQUrKZnqvlu6Z9tWMs10mnE6xxgcS23FZigowXDMLt3I5gan3AruYl09gw5phii66vBPWPd6scL7uLmgfWc1xcNrX4qo1BWyXyyPijY0mF1s0rGFssFCxoAaHhsshtsb2IHM8VoupZRsL5Z2hg9nr5GMAPY9y+aavpbicpJkrqo34CeRrdfstIHuXJnme85nuc483OJPmVlLLZvHDR6/jPTTrJZW9W0Nbn/LGo6wGzTkawAAAZsutjssThNa6GcNG9/V7SdcvaHDTvsmdGOlcFI7PJRMmfbLmMpAA2LgwtIzW/AU3Sala4CrgaWxl2RwAI6t3tMt9kjVp8NwtVNNWvBm4U6fkp4jQNbIcg/Jn1mdjTs3w1HgqboFoaV4qBf6xGe3jlkHcHgG3J6gqqOylwXgFN9Mz7o0wtV+WKyruas2jVMqlqaQp3NUsNC92trDmdEqsrkkdPok3V/d8lYqY0zo+GRve0OzHISTw0C03R3oxFWQR1M2KQQdYXARCBz3gtJFvaFzpfbitIrVHPOS5WzA4q3Zc+y9Vn6LdHm/0+LVchHCOny/GM/FSx4D0VY3rXSYk5m1nXAP7rR8VPwpN9M0WaCW2eSFNWv6dy4QOrZhcD2s3kfL1heXA+qGFzzYWJvoNgses5JrTNoytWStclLtvH5KIFOvt4/JKx0WGpybHslVkipEJEDBwUMnz+QVh6ryfP5BJgiMJzU0J4CSGSNXVwbHqujzCml6vOWl1msJOW4bqRwzO81RoHMD7vF22Pna4THuBJIFgTty7FqtKzN7dNGpj6f4qP607+HF/KuNjmMT1cnXVD80mUNzWA0GgFh3lUAU2c/jxCTehKKTLGBSATAk2C2FNRPc5haAesBI13tcFYag9pek4aKT6ExzjJ9LaHhticoBOy6/SP7NHH61U7/YKT0cylueonhhB1HrA991wY8HgaKxwqo7wuYyME2MuawJFjtf4JMZqS4Wu468SSLW4XWVm9tZ51xZphuatnsOH+jKd0YczEoRmAuMt/fmXH6SdDKigZ1rqmnk7ACDp4lZiOka4NsLEhV6phynf3qnia22SpJ6R2nY+2mpuvZ/Tv8AUiFtGuFi6Q/q+rbtI7VhC50jy5xu5xJJPEk3JVjFprvDB7MQ6sciQSXu8Xlx7rKtTR5nZRx0XJOTk6OyEFFF2OjH122HMX/+qc4YwC99OebQ93NQNw2dug08XfCy7Ril+jdYWaX6vNb1b2unFfgTKXyZxTSX1a0W5ldfB+kz42/RKomSicMhadTECbhzDvobG3ZouQ7C53anX94+Qsq9bTGOzTulbjtFUpaZpaaN1HUBriCwHO1wIyujcMryOwss7+7WwxbBHNBcSy36wXn2DV/WBtPJbM03gedweMRPFruHI6cdNBitQ3KxrS7OA0OBJ103XTCpRbRyZbUkh1J0cqqm5ghe4XtcDTzK6EPoyxF+pY1v6zvuUtJ0rraSGNsD2hpHFtypaXpXiUzgX1D8vENDWj3BX/Tyboj46UeRhcZpX0kzoHAF7NDxCoyTPdu4q/0ln6ype83ud79ipkAAW34rncabR1QlcUxlO4gmxIuDst50V6v6EOskIIc8xt29fNa91go/a8FvOiNE6amj0GUOkA5n1jot/R/5Gcn/AKDSxp/j9S1ieHBuV72kukaNL+y7nZUq7DCXNjZHpqXZjcAAD1lranCnuDTJcuAaAfs8EVkIBf8A+N4+C9NJM8R+papI8p6T0YiyWLdSdmgLgrv9JiwtjLXFxub3dfguAvF9XXxXR9N6Vv4SsAnf7/JNSrmOgsx7BOTIzonXWhIqRJdF0ASPCrS7+PyCtOVeYaoYIbTxlxIAcTa4sCTpxsFNUC351vtNI+KtYFWsgeZHPmY+1mmOOJ+h9q4e4di0cfS6PjUVf+Epfk9b44Qcdyr+fqjmy5ckZ/Zja/f6MxoeOYSh45hbR3SimPtTSO/Wo4j/AKlBL0kpOGYnsoaVp8y75Kvhw+//AK+pC9Rk+4/f/kywcOaZPrstSOktN+bL409EVz62sjqJB1YIAY4G8cTDcnkw2KmcI1qVmkMs29xr+focegPrLTmpzxfk9HNOuutlV6HYfRvqnRV0kjIgwkGPLcuuLDXhYlbsYB0dG1ZVjxj/AJVfp+Sj0Z+olDkrZ51LUOIsSuY/216nJgHR3+3VI78n8qwbaOlNa6PrnfRg45ZLC5Glr6d6nJGTasuGSFOvY6TXZWsPYoKqpbba1tb92vyWmq6LDcoy1TjYW2/2WbxWOnAtG97tdbjhx4LsySqOmjjwyUpdMx6non2e0qFzbGx3GnkkXkeT1+zbU07pRZrXX9k34W38Fr62KkbhLWNqInP64klrha4BB8FgMHqHyNvHLJHI22cMe4ZmjQOLdjbbY6WUNVQvc43lBLjmPrkXPA2yDlyXQpOjkcFfZ1pJ+qZci7QL3HEcxfdZvGnXdc7m2nEX117dl0zThgzzSPe1uzXPdlLuAA5aXOiz9VOXuLjxUZHqjTHHdkQK0j8T+kNje8DrW/k5CPrEateeRIJB/UJ4rNro4U27Xgbgsd4DO0+97VMJNPRpNJo29HS9fGwAG7d1uKfomGU13aOddw7rLG9HekMNMzLJG8m+4C2zfSbQSMa10cwDRb2CvSlnpR4/ueK8E5OSfXg8YxtmWdwUcUgAILbk7HktHNLQS18ksof9GIJaLal3cpsNgw+STVuVv2isYx5SbTO15OEEmn0Y0e0vVPRPWQtiySNB9d4zE7XNxYLBxshNVJHcNhJsHAXsBtZavoD/AMOayVtViLKdzZSGAtPrNsLOv+NlOLjCT5PW0L1SlkxpRW9M9hfilKbwyZNt7aefBYnHepDHvjff1XCx3Fwh8uCO3xuL91VpMNwmXVmPUgb9vqwf/aRvwXRjy4YdSfuefk9NnyVyivb6nkuOxZQ3v+S469C9IeC4fBTskp8UgqpjIB1cZiNmlrruOV7iLWHmvPVweolGU7j0e16dSWNKXYJUNCkyrJI3HNKddMS3VEi3RdJdJdAFpyhcAVDJISlDgiwofkH4KUNb+CUzrByR1nYi0FDntbbTfx/HBOia3kFGJebWnvL/APSQpWVgG0MN+3rz7i+yVoGmRy2voulSSC17C/cqoxI/oab+Aw/FSsxmQbR0w/8AzQ/cmmkS02i+/JYkgXtvouTFEbl1tL6Wsrf/AB6f82n/AMNT/wAqo1VU97szrX+y1rRp9loATbTFGLR1o6d8p1exul9Ty7AoJXRsFr3PMKpG8E3snTMLy1rRdziAANySbAeadi47J6efM8clq8KwOer/AKKMBnGR/qxj9o7nsFyr2A9HaOijbUVzXSOL8liPybLGxcWHVwDvVueV7BarF+kbYYyWZQdmgcuA7FvDFKtnNkyxvR5J006OPoZ8mbOx4zNflLQT9cWPI+4hZ6y9NrYRUwl1SSXSG7NdW/aCxGLYRLTkdYBlPsuHzbuFnmwOO10bYc6lp9lCjqnxPEjDqPfzBWimraeSeCozMaA12dpNrFoNh5lZl7LdoTVipOOjaUE9l7FsRdO7kweyPn3qhZKhS22ykklSGru9D8P6+pbEXFrC15c4NDsoDbtJbcXGbJxXGDLrXdFmCJpc4WdJaxvsBsPn/wDFrgx8pGWefGDLOMYNNTauAdHwkbcsPfxaew28VzaeTK1xW0p8WygknS2vLtXJroKaqY50DWxvsdRpG62tiPqntHjfh1Tw1tHJDLemjIuxMfmfBTtu4A5WWP22X8rrkubrrupGrkUn5OxxXguSROBzNyfvt+9D231OW/6zVTKjcUWPiW3N7vMKu8d3mFCSkupsaQrkyyc09gPff5FSdaP0cfnN/OkUNjCe4a+SeKhv6GPwdPf3vKf1sR3jf+zM0D/2jKpCZWk3SXU8rojsyQHheZhHkIxdRshJF7hAxl0XUn0d3Z5pOpd+ClsCFKkbunJIYiEIQAiEOO3v80rba3PdpukAicE1KgQ5SMaLKJXKSJrmnU3voLbqkKTpDGK/h+hMnFujTyc64v4NDvEhR0bWRytE7HZDzBHxVnFZGAgRNytsXW7b2v5D3rWK8syk70dCLHJJIXUszi7KLMJNzk4N8ElO99S6NhJy2Fzy01Kz3W6teN9iujFiQigOS/Wu9Xsa3j4lbwyryZTxfI0eKYq1jhksQ3Ro4ABZTFqhz7ucSSSnRm1gTt8eKr1mqWWblEMWNRZzhcJN+9TvZomBq46OuxgKUPHFoSlqC1AEtMQTa2nzXZp5y5hbc3Go7lxYW2KuwyZfWC2xSoyyRssOr3ljoybnYHiQUV+JFmWGM2Y22Yj6zuPgq1Q8Os9ul9CORXPvc3PEpyyNaFHGns6VdEPaG1y0949k+LbeRVW6nEtxl5j3gC3wt4qs4G6zl3ouPQOKaWHmEEFAF1JQyVhabG1+wgpoQ7dAUjFCEBKmhgnBNShNAKp6c+qFApKY6J+SWWbpLpt0l0xFNm6EgSqEWCEiUC6AEsnhoNrA3467nsFtPepWUzzsB4n7k/qcmrnDuCdCbGGFxaPUA7b6n3p1PQSSHKxpcddtdl0KPFIYwPyReba3tZd6PphMGFsUAjba12DVVSZm5SRl6bCZpL5G3A3NwAEygqnU8jZAAXMN7Ha4Xaw2np336ySbUkkC4HuVmDDKbNcRlw5l+/mmovwS5rpnYp8LbjVO+qFXEytiOtMWtaDHwLXXuSee19O1YuucA+3Aer5C3yW0fhVAyN8hgeHsY5wsRYEDS9tRqsFUFW7S2KFN66In6Et8k2M3I70OdcWO/BLTN1vwbqfuWXk28F90gG5UbnXVYPzFPe9acrI4hJsgtTHH5fFOcVJQ1wRZBKTMkMcE7PwURcmlyLCiQSWuOB/F1A3cJXFMaVLY0ibOdLcFfZCQcwBy2uO4rmt3XfoqlvVAODja49lxG9xqOwqo77Inro5dTNfT5KJrHEafcuoZ4LnMxzhY2ABFncCdNlFRsY4m4cP2XJNbBPRREbuIUZjsu2+mZbQnwDlzpI2/VddFDUiklurZiadymGlHByKZXJFdCkdARxUN0roY8lSQHRQXUsOyE9iZNdF01F1RJWQgBOEZWZYwp8ZANynCJW6SkzFNJibK5lHAE+CkfTuNr6ea7zsLGQ6G9tLb34e9cT6BUO0yuv3qtkpoSKhefrN8iT4gajxXSpaIC1yTyufOwBy8uLu5VIcKrmkZIn6bWsfcrkEWIM0NJO4G1/yMhJA0tcAg6cweCcWkTJN9M6sNOBuOWmpPL2QL78cre9dORrYBmnkigB4SEumI+zTsu636zrKhSYBi9ToynbAw/WeGsd2XcQZPIDZaTB/RfC056ud0jjqWsORp73kl7vMK/ifIy+H8zJ430gifE6KGKQMNh1kjwHHW/qwtOVoNjqs1bMLLc+lWghhNNTwCKOMNkflaBYuu0XcRubcTzK8/6l/b3gtKTk2axiktEbxw4hNa7RPlDuOvx8VGFk+zRE0A4nghuqS9m96dEqQh5LLG4dnuMpBblA+tmFrnhaxHikSOCWyYCE21sD2G9j5EFMBUjlGUmAhTUpSKRgUxqVyRt+CQyRgPivRvRzEXQTXG0g/yD/ZeetcG67u+C3vo3xKFsE0cssbHdYHgvexuYOaG6XOtsnvVozl0dysphyHuXn+IY3KHlpaGNBtl2cQD+cRv2281u67EaXhU0/8AHi+9cWpqqR+jpYHD/wAkZ+aCEUukc2HvgjqaColDxaOalqCwyA2NpGOaA2RmhvxGm2yzbC2TYZXb6bFanE24WGt6v6Pm4nM0/NcY9QLlhjHcQgq0ct7XjiConSHj8lZqspPteRChZLl2yeMcTv8AMCky0RGUqNSyPzb5fBjG/wCUBR2UsoQKdqiCUOTQmTXSXUedGdOwoZmPMpLnmhCgYXPMpwkcNnOHiU1CAJRUyfpJP33fejr38XvP7TlEhAEvXdp96TO3l7lFZFkAS5m8h5BLmb+aPIKKyEwJMuY2Gg7tyrUVADufAfMqqyYjYC/NW4KrmtIcfJEuXgldhwt6pI94XMlhcw2K6bak2zG/YOaVlM5+sjzfkLWC0lBS/tIUmuzmPPuU0LbhOqaJzNQLt7OHerTXZWgDgPfxUKLvZbkq0Viwp7GjieXxCXOUkh493xVUIa5nf5Jpj7/JK4pWvKQytI2yaVdqfXaOY+HFVGRl3cokqY07REVKyM23U4hA4Jj78DfwRxrsLshfH2prTZPLrphChlDsyMybZFkgFzIukslQAIQhABdCEIAEIQgAQhCABCEIAEIQgAQhCABCEIAAlshCaQCJWlCELsCxE/W/l2K5HMhC3hJmckS/SOAUFc9ttPa/GpQhVKTaJjFWUwT+CEGTRCFjZrQ0uRmQhDYUW6YN3Op5bKR7h2eCELZdGT7KrpFE43QhZtmiRGUiELJlAhCEgBCEIAEIQgAQhCABCEIAEIQgD//Z"
+            <Avatar
+              alt="Profile Picture"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVCHywHxDFVk0j8PEgX8FELCQ8Vbiu2a49Xg&s"
             />
           </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      {/* Pass open state and setOpen to the drawer */}
-      <TemporaryDrawer open={open} setOpen={setOpen} />
-    </div>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
+
+export default CustomAppBar;

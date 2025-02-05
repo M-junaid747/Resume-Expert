@@ -7,6 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AppBar from '../Component/Appbar';
+import Footer from '../Component/Footer';
 
 const collapsedWidth = 60;
 const expandedWidth = 150;
@@ -20,7 +21,7 @@ const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar />
       {/* <Drawer
         variant="permanent"
@@ -82,12 +83,13 @@ const Layout = ({ children }) => {
           p: 3,
           backgroundColor: '#f0f2f5',
           minHeight: '100vh',
-          marginLeft: `${open ? expandedWidth - 100 : collapsedWidth - 20}px`,
+          marginLeft: `0px`,
           transition: 'margin-left 0.3s ease',
         }}
       >
         {children}
       </Box>
+      <Footer />
     </Box>
   );
 };

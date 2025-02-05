@@ -34,7 +34,7 @@ export default function SignIn() {
           maxWidth: '400px',
           width: '100%',
           borderRadius: '30px',
-          backgroundColor: '#07bbe8',
+          background: 'linear-gradient(45deg, #2196F3,rgb(157, 200, 210))',
           transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Add transition for smooth animation
           '&:hover': {
             transform: 'scale(1.05)', // Scale up the card on hover

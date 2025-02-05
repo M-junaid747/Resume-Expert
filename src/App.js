@@ -5,6 +5,7 @@ import SignUp from './Auth/Signup';
  import SignIn from './Register/Signin';
 import Home from './Auth/Home/Home';
 import User from './Pages/User';
+import FileUploadPage from './Pages/FileUpload';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
   <Route exact path='/signin' element={<SignIn/>}/>
   <Route exact path='/home' element={<Home/>}/>
   <Route exact path='/user' element={<User/>}/>
+  <Route exact path='/file' element={<FileUploadPage/>}/>
 </Routes>
 </BrowserRouter>
 </>
