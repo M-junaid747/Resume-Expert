@@ -33,7 +33,7 @@ const CustomAppBar = ({ handleMenuClick, handleClick }) => {
             transition={{ duration: 0.8 }}
           >
             <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
-              Resume Checker
+              Resume Analyzer
             </Typography>
           </motion.div>
         </Box>
