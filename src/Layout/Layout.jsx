@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar />
-      {/* <Drawer
+      {/*<Drawer
         variant="permanent"
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
