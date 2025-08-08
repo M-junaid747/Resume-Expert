@@ -6,14 +6,14 @@ import Layout from '../Layout/Layout';
 export default function About() {
   return (
    <Layout>
-     <Container maxWidth="lg" marginTop="150px"sx={{ padding: 4  }}>
+     <Container maxWidth="lg" marginTop="150px" sx={{ padding: 4  }}>
       {/* Animated Box Container for the About Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <Box sx={{ textAlign: 'center', marginBottom: 4 ,marginTop:10}}>
+        <Box sx={{ textAlign: 'center', marginBottom: 4 ,marginTop:4}}>
           <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
             About Resume Analyzer
           </Typography>

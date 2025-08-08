@@ -1,18 +1,19 @@
 import React from 'react';
 import { Typography, Box, Container, TextField, Button, Grid, Paper } from '@mui/material';
 import { motion } from 'framer-motion';
+import Layout from '../Layout/Layout';
 
 export default function ContactUs() {
   return (
-    <layout>
-    <Container maxWidth="md" sx={{ padding: 4 }}>
+    <Layout>
+    <Container maxWidth="md" marginTop="150px" sx={{ padding: 4 }}>
       {/* Title Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <Box sx={{ textAlign: 'center', marginBottom: 4 }}>
+        <Box sx={{ textAlign: 'center', marginBottom: 4, marginTop:4 }}>
           <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
             Contact Us
           </Typography>
@@ -115,6 +116,6 @@ export default function ContactUs() {
         </Grid>
       </Grid>
     </Container>
-    </layout>
+    </Layout>
   );
 }

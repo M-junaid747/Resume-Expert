@@ -1,103 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ResumeUpload from '../Component/FileUpload';
-import { Container, Box, Typography } from '@mui/material';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  CartesianGrid,
-} from 'recharts';
+import JDinput from '../Component/JDinput';
+import { Container, Box, Typography, Button, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout/Layout';
 import { motion } from 'framer-motion';
-
-// Dummy data for the sample chart
-const sampleData = [
-  { name: 'Skills', count: 120 },
-  { name: 'Experience', count: 98 },
-  { name: 'Education', count: 86 },
-  { name: 'Certifications', count: 99 },
-  { name: 'Projects', count: 85 },
-];
+import axios from 'axios';
 
 export default function FileUploadPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on component mount
+  }, []);
+  const navigate = useNavigate();
+  const [jobTitle, setJobTitle] = useState('');
+  const [jobDesc, setJobDesc] = useState('');
+  const [error, setError] = useState('');
+
+  const handleInsightsClick = async () => {
+    try {
+      const email = localStorage.getItem('userEmail');
+      if (!email || !jobDesc) {
+        setError('Make sure resume is uploaded and job description is filled.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('jd_text', jobDesc);
+
+      const response= await axios.post('http://localhost:8000/api/match-resume', formData);
+
+      navigate('/result', { state: response.data });
+    } catch (err) {
+      console.error('Matching failed:', err);
+      setError('Failed to process insights. Try again.');
+    }
+  };
+
   return (
-  <Layout>
-      <Container margin="auto" maxWidth="md" sx={{ py: 4 ,mt:4,backgroundColor:"#e5e6e3"}}>
-      {/* Header Section */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-      {/* Animated Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-      >
-        <Typography
-          variant="h3"
-          component="h1"
-          gutterBottom
-          sx={{
-            background: 'linear-gradient(45deg, #2196F3, #21CBF3)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontWeight: 'bold',
-            fontSize: { xs: '2.5rem', md: '3rem' },
-            textShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
-          }}
-        >
-          Resume Analyzer
-        </Typography>
-      </motion.div>
+    <Layout>
+      <Container maxWidth="md" sx={{ py: 4, pt: '100px', backgroundColor: '#e5e6e3' }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+            <Typography variant="h3" sx={{
+              background: 'linear-gradient(45deg, #2196F3, #21CBF3)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 'bold',
+            }}>
+              Resume Expert
+            </Typography>
+          </motion.div>
 
-      {/* Animated Subtitle */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-      >
-        <Typography variant="subtitle1" color="textSecondary">
-          Upload your resume to get insights into your skills, experience, and more.
-        </Typography>
-      </motion.div>
-    </Box>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Upload your resume and job description to get smart insights.
+            </Typography>
+          </motion.div>
+        </Box>
 
-      {/* Resume Upload Section */}
-      <Box sx={{ mb: 6, display: 'flex', justifyContent: 'center' }}>
-        <ResumeUpload />
-      </Box>
+        <Box sx={{ mb: 6 }}>
+          <ResumeUpload />
+        </Box>
 
-      {/* Text Analysis Chart Section */}
-      <Box
-        sx={{
-          mb: 4,
-          p: 3,
-          backgroundColor: '#f5f5f5',
-          borderRadius: '12px',
-          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <Typography variant="h5" component="h2" gutterBottom>
-          Text Analysis
-        </Typography>
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-          The chart below represents a sample analysis of your resume content.
-        </Typography>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={sampleData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" fill="#8884d8" />
-          </BarChart>
-        </ResponsiveContainer>
-      </Box>
-    </Container>
-  </Layout>
+        <Box sx={{ mb: 6 }}>
+          <JDinput
+            jobTitle={jobTitle}
+            setJobTitle={setJobTitle}
+            jobDesc={jobDesc}
+            setJobDesc={setJobDesc}
+          />
+        </Box>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <Box sx={{ textAlign: 'center', mt: 4 }}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleInsightsClick}
+              sx={{
+                background: 'linear-gradient(to right, #00c6ff, #0072ff)',
+                color: '#fff',
+                px: 5,
+                py: 1.5,
+                borderRadius: '30px',
+                fontWeight: 'bold',
+                boxShadow: '0px 4px 15px rgba(0, 114, 255, 0.4)',
+                textTransform: 'none',
+              }}
+            >
+              Get Insights
+            </Button>
+          </motion.div>
+        </Box>
+      </Container>
+    </Layout>
   );
 }
-
